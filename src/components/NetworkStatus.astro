@@ -1,0 +1,113 @@
+---
+import { getAlerts } from "../api/alerts.api";
+import { AlertEffect, type Alert, type Route } from "../services/gcba.service";
+import LineChip from "./LineChip.astro";
+
+export const prerender = false;
+
+var routes: Route[] = [
+  {
+    ids: ["LineaA"],
+    name: "Línea A",
+    letter: "A",
+    href: "/a",
+    alerts: []
+  },
+  {
+    ids: ["LineaB"],
+    name: "Línea B",
+    letter: "B",
+    href: "/b",
+    alerts: []
+  },
+  {
+    ids: ["LineaC"],
+    name: "Línea C",
+    letter: "C",
+    href: "/c",
+    alerts: []
+  },
+  {
+    ids: ["LineaD"],
+    name: "Línea D",
+    letter: "D",
+    href: "/d",
+    alerts: []
+  },
+  {
+    ids: ["LineaE"],
+    name: "Línea E",
+    letter: "E",
+    href: "/e",
+    alerts: []
+  },
+  {
+    ids: ["LineaH"],
+    name: "Línea H",
+    letter: "H",
+    href: "/h",
+    alerts: []
+  },
+  {
+    ids: ["PM-Civico", "PM-Savio"],
+    name: "Premetro",
+    letter: "P",
+    href: "/premetro",
+    alerts: []
+  }
+]
+
+function statusColor(alertEffect: string): string {
+  switch (alertEffect) {
+    case AlertEffect[1].toString():
+      return 'bg-red-700 text-zinc-50';
+    case AlertEffect[3].toString():
+      return 'bg-red-700 text-zinc-50';
+    case AlertEffect[9].toString():
+      return 'bg-amber-500';
+    default:
+      return 'bg-amber-300';
+  }
+} 
+
+const alerts: Alert[] = await getAlerts();
+
+routes = routes.map((route) => {
+  const alertsForCurrentRoute: Alert[] = alerts.filter((alert) => route.ids.includes(alert.informed_entity.route_id));
+  route.alerts = alertsForCurrentRoute as Alert[];
+
+  return route;
+})
+---
+
+<div class="flex flex-col gap-2 bg-zinc-100 md:max-w-1/2 w-[stretch] rounded-sm pb-2">
+  <h5 class="px-3 py-2 pb-0">Estado de la red</h5>
+  <div class="flex flex-col gap-1">
+    {
+    routes.map((route) => {
+      return (
+        <a href={route.href} class="flex items-stretch gap-0">
+          <div class="flex gap-1 w-fit">
+            <div
+              class={"flex gap-1 min-w-24 items-center " + (route.alerts.length !== 0 ? statusColor(route.alerts[0].effect) : 'bg-zinc-300') + " pl-3 px-2 py-1"}
+            >
+              <LineChip line=`${route.letter}` />
+              <p class="text-xs">{route.name}</p>
+            </div>
+          </div>
+          {
+            route.alerts.length !== 0 ? 
+            (<div class={"flex flex-wrap gap-1 w-full items-center h-[stretch] " + statusColor(route.alerts[0].effect) + " pr-3 px-2 py-1"}>
+              {/* <p class="text-xs">{route.alerts[0].cause}</p>
+              <p class="text-xs">{route.alerts[0].effect}</p> */}
+              <p class="text-xs text-pretty">{route.alerts[0].description_text}</p>
+            </div>) : (<div class="flex gap-1 w-full items-center h-[stretch] bg-zinc-50 pr-3 px-2 py-1">
+              <p class="text-xs">Normal</p>
+            </div>)
+          }
+        </a>
+      );
+    })
+  }
+  </div>
+</div>

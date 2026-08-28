@@ -1,0 +1,47 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+import { Font } from "astro:assets";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ClientRouter />
+    <Font cssVariable="--font-geist" preload />
+    <Font cssVariable="--font-bricolage-grotesque" preload />
+    <Font cssVariable="--font-radio-canada-big" preload />
+    <Font cssVariable="--font-neue-frutiger" preload />
+  </head>
+  <body data-barba="wrapper">
+    <div data-barba="container">
+      <main class="content__wrapper">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
+
+<!-- <script type="module">
+  import { gsap } from "gsap";
+  import { CustomEase } from "gsap/CustomEase";
+  import { SplitText } from "gsap/SplitText";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    gsap.registerPlugin(CustomEase, SplitText);
+
+    CustomEase.create("hop", "0.56, 0, 0.35, 0.98");
+  });
+</script> -->

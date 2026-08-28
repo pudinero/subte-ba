@@ -1,0 +1,24 @@
+---
+import ArrowDownRight from "../icons/ArrowDownRight.astro";
+
+interface Props {
+  title: string;
+  href: string;
+  type?: "exit" | "color";
+  color?: string;
+}
+
+const { title, href, type = "exit", color = "bg-zinc-800"} = Astro.props;
+
+function buttonTypeValidator(type: "exit" | "color"): string {
+  return type === "exit"
+    ? "font-semibold flex items-center text-mist-950 gap-2 md:pb-2 md:pt-1.5 not-md:mb-1.5 not-md:py-2 px-3 bg-zinc-50"
+    : `font-semibold flex items-center text-zinc-50 py-3 gap-2 md:pb-2.5 md:pt-2.5 px-3 ${color}`;
+}
+---
+
+<a href={href} class={buttonTypeValidator(type)}>
+  <span class="flex items-center gap-1"
+    >{title} <ArrowDownRight class="size-5" /></span
+  >
+</a>

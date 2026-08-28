@@ -1,0 +1,215 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LineChip from "../components/LineChip.astro";
+import LineHeader from "../components/LineHeader.astro";
+import HeaderButton from "../components/HeaderButton.astro";
+import type { Station } from "../services/gcba.service";
+import EstimatedTime from "../components/EstimatedTime.astro";
+import Loader2Icon from "../icons/Loader2.astro";
+
+var title: string = "Línea A - Subte de Buenos Aires";
+
+const stations: Station[] = [
+  {
+    ids: ["1059N", "1059S"],
+    name: "San Pedrito",
+    line_combinations: [],
+  },
+  {
+    ids: ["1060N", "1060S"],
+    name: "San José de Flores",
+    line_combinations: [],
+  },
+  {
+    ids: ["1061N", "1061S"],
+    name: "Carabobo",
+    line_combinations: [],
+  },
+  {
+    ids: ["1062N", "1062S"],
+    name: "Puan",
+    line_combinations: [],
+  },
+  {
+    ids: ["1063N", "1063S"],
+    name: "Primera Junta",
+    line_combinations: [],
+  },
+  {
+    ids: ["1064N", "1064S"],
+    name: "Acoyte",
+    line_combinations: [],
+  },
+  {
+    ids: ["1065N", "1065S"],
+    name: "Río de Janeiro",
+    line_combinations: [],
+  },
+  {
+    ids: ["1066N", "1066S"],
+    name: "Castro Barros",
+    line_combinations: [],
+  },
+  {
+    ids: ["1067N", "1067S"],
+    name: "Loria",
+    line_combinations: [],
+  },
+  {
+    ids: ["1068N", "1068S"],
+    name: "Plaza Miserere",
+    line_combinations: ["h"],
+  },
+  {
+    ids: ["1069S"],
+    name: "Alberti",
+    line_combinations: [],
+  },
+  {
+    ids: ["1070N"],
+    name: "Pasco",
+    line_combinations: [],
+  },
+  {
+    ids: ["1071N", "1071S"],
+    name: "Congreso - Pte. Dr. Raúl Alfonsín",
+    line_combinations: [],
+  },
+  {
+    ids: ["1072N", "1072S"],
+    name: "Sáenz Peña",
+    line_combinations: [],
+  },
+  {
+    ids: ["1073N", "1073S"],
+    name: "Lima",
+    line_combinations: ["c"],
+  },
+  {
+    ids: ["1074N", "1074S"],
+    name: "Piedras",
+    line_combinations: [],
+  },
+  {
+    ids: ["1075N", "1075S"],
+    name: "Perú",
+    line_combinations: ["d", "e"],
+  },
+  {
+    ids: ["1066N", "1066S"],
+    name: "Plaza de Mayo - Casa Rosada",
+    line_combinations: [],
+  },
+];
+---
+
+<Layout title={title} description="">
+  <div class="flex flex-col min-h-svh h-max w-full justify-center">
+    <div
+      class="flex flex-col bg-gray-300/90 min-h-dvh border-b-2 border-gray-950/5 w-full"
+    >
+      <LineHeader
+        name="Línea A"
+        description="San Pedrito / Plaza de Mayo - Casa Rosada"
+        color="bg-line-a"
+        buttons={(<HeaderButton title="Volver" href="/" />)}
+      />
+      <div
+        class="flex flex-col gap-1 max-w-3xl w-full p-3 md:min-h-[calc(100svh-47.7501px)] self-center"
+      >
+        <div class="flex gap-3 not-md:flex-col">
+          <EstimatedTime
+            server:defer
+            stations={stations}
+            routeId="LineaA"
+            firstStation="Plaza de Mayo"
+            lastStation="San Pedrito"
+          >
+            <div
+              slot="fallback"
+              class="flex flex-col gap-2 bg-zinc-100 w-[stretch] rounded-sm pb-2"
+            >
+              <div class="flex justify-between items-center px-3 py-2 pb-0">
+                <h5>Horarios estimados</h5>
+                <p class="">
+                  <Loader2Icon class="size-5 animate-spin" />
+                </p>
+              </div>
+              <div class="flex flex-col gap-1">
+                <div
+                  class="flex not-md:flex-col items-stretch gap-0 -mb-1 bg-zinc-800 text-zinc-50"
+                >
+                  <div class="flex md:flex-1/2 gap-1">
+                    <div
+                      class={"flex gap-1 min-w-24 w-full items-center pl-3 px-2 py-1"}
+                    >
+                      <p style="text-xs">Estación</p>
+                    </div>
+                  </div>
+                  <div class="flex md:flex-1/2 gap-0">
+                    <div
+                      class="flex md:flex-1/12 justify-center gap-1 flex-wrap w-full items-center h-[stretch] not-md:pr-1 py-1"
+                    >
+                      <p class="text-xs text-pretty">a Plaza de Mayo</p>
+                    </div>
+                    <div
+                      class="flex md:flex-1/12 justify-center gap-1 flex-wrap w-full items-center h-[stretch] not-md:pr-2 pr-1 py-1"
+                    >
+                      <p class="text-xs text-pretty">a San Pedrito</p>
+                    </div>
+                  </div>
+                </div>
+                {
+                  stations.map((station) => {
+                    return (
+                      <div class="flex not-md:flex-col items-stretch gap-0">
+                        <div class="flex md:flex-1/2 gap-1">
+                          <div
+                            class={
+                              "flex gap-1 min-w-24 w-full items-center bg-zinc-300 pl-3 px-2 py-1"
+                            }
+                          >
+                            <p style="text-xs">{station.name}</p>
+                            {station.line_combinations.length !== 0
+                              ? station.line_combinations.map((combination) => (
+                                  <LineChip line={combination} />
+                                ))
+                              : null}
+                          </div>
+                        </div>
+                        <div class="flex md:flex-1/2 gap-0">
+                          <div class="w-full bg-zinc-50">
+                            <div class="relative h-full not-md:min-h-[26.97px] flex-1 overflow-hidden bg-zinc-50">
+                              <div class="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-zinc-300 to-transparent animate-shimmer" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                }
+              </div>
+            </div>
+          </EstimatedTime>
+        </div>
+
+        <!-- <div class="flex gap-1 flex-col max-w-1/2">
+          {
+            stations.map((station) => {
+              return (
+                <div class="flex gap-1 bg-gray-100 rounded-sm px-2 py-1 w-full text-sm items-center">
+                  {station.line_combinations.length !== 0
+                    ? station.line_combinations.map((combination) => (
+                        <LineChip line={combination} />
+                      ))
+                    : null}
+                  <p>{station.name}</p>
+                </div>
+              );
+            })
+          }
+        </div> -->
+      </div>
+    </div>
+  </div>
+</Layout>

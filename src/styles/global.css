@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-neue-frutiger);
+}
+
+@theme {
+  --color-line-a: #0098bd;
+  --color-line-b: #e32740;
+  --color-line-c: #013d93;
+  --color-line-d: #02735c;
+  --color-line-e: #761e7c;
+  --color-line-h: #f3c704;
+  --color-line-p: #f5b121;
+
+  --color-line-text-dark: #040001;
+
+  --animate-shimmer: shimmer 2s linear infinite;
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(250%);
+    }
+  }
+}
+
+@layer components {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-3xl;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+  h4 {
+    @apply text-xl;
+  }
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  font-feature-settings:
+    "liga" 1,
+    "calt" 1,
+    "ss01" 1;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  overflow-x: clip;
+}
+
+@media (max-width: 768px) {
+  body {
+    letter-spacing: -0.025em;
+  }
+}
+
+[data-barba="container"] {
+  width: 100%;
+  position: absolute;
+  max-height: 100svh;
+  height: 100%;
+}
+
+[data-barba="wrapper"] {
+  background-color: oklch(0.9 0 0);
+  min-height: 100svh;
+}
+
+.content__wrapper {
+  height: 100%;
+}

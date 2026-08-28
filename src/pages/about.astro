@@ -1,0 +1,36 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LineHeader from "../components/LineHeader.astro";
+import HeaderButton from "../components/HeaderButton.astro";
+
+var title: string = "Acerca de - Subte de Buenos Aires";
+---
+
+<Layout title={title} description="">
+  <div class="flex flex-col min-h-svh h-max w-full justify-center">
+    <div
+      class="flex flex-col bg-gray-300/90 min-h-dvh border-b-2 border-gray-950/5 w-full"
+    >
+      <LineHeader
+        name="Acerca de"
+        buttons={[<HeaderButton title="Volver" href="/" />]}
+      />
+      <div
+        class="flex flex-col gap-1 max-w-3xl w-full p-3 md:min-h-[calc(100svh-47.7501px)] self-center"
+      >
+        <div class="flex gap-3 not-md:flex-col">
+          <span
+            class="bg-gray-100 rounded-sm px-2 py-1 w-fit text-sm font-normal"
+          >
+            Este portal fue creado durante varias trasnoches para pulir mis
+            habilidades con Tailwind y Astro<br />
+            No se usó ningún agente de inteligencia artificial, varios litros de agua
+            fueron derivados a termos de mate<br />
+            Las cosas que uno hace cuando no tiene trabajo, no?<br /><br />
+            <i>Cristian Leguizamón - 2026</i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

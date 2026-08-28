@@ -1,0 +1,41 @@
+---
+interface Props {
+  name: string;
+  description?: string;
+  color?: string;
+  buttons?: any[];
+}
+
+const { name, description, color = "bg-zinc-800", buttons } = Astro.props;
+
+function descriptionStyling(name: string): string {
+  switch (name) {
+    case "Línea B":
+      return "italic text-xs text-pretty";
+    case "Línea H":
+      return "italic text-xs text-wrap";
+    default:
+      return "italic text-xs not-md:pt-1";
+  }
+}
+---
+
+<div
+  class=`flex flex-col items-center ${color} border-t border-t-gray-950/20 border-b border-b-gray-950/20 h-max text-white`
+>
+  <div
+    class="flex items-end not-md:flex-col gap-3 max-w-3xl w-full h-full self-center justify-between"
+  >
+    <div
+      class=`flex py-2 gap-3 ${color == "bg-line-h" ? "text-line-text-dark" : ""} items-baseline not-md:items-center not-md:w-full not-md:px-5`
+    >
+      <h4 class="min-w-fit">{name}</h4>
+      <p class={descriptionStyling(name)}>
+        {description}
+      </p>
+    </div>
+    <div class="flex md:items-end not-md:px-5">
+      {buttons}
+    </div>
+  </div>
+</div>

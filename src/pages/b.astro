@@ -1,0 +1,211 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LineChip from "../components/LineChip.astro";
+import LineHeader from "../components/LineHeader.astro";
+import HeaderButton from "../components/HeaderButton.astro";
+import type { Station } from "../services/gcba.service";
+import EstimatedTime from "../components/EstimatedTime.astro";
+import Loader2Icon from "../icons/Loader2.astro";
+
+var title: string = "Línea B - Subte de Buenos Aires";
+
+const stations: Station[] = [
+  {
+    ids: ["1077N", "1077S"],
+    name: "Juan Manuel de Rosas - Villa Urquiza",
+    line_combinations: [],
+  },
+  {
+    ids: ["1078N", "1078S"],
+    name: "Echeverría - Mártires Palotinos",
+    line_combinations: [],
+  },
+  {
+    ids: ["1079N", "1079S"],
+    name: "De los Incas - Parque Chas",
+    line_combinations: [],
+  },
+  {
+    ids: ["1080N", "1080S"],
+    name: "Tronador - Villa Ortúzar",
+    line_combinations: [],
+  },
+  {
+    ids: ["1081N", "1081S"],
+    name: "Federico Lacroze",
+    line_combinations: [],
+  },
+  {
+    ids: ["1082N", "1082S"],
+    name: "Dorrego",
+    line_combinations: [],
+  },
+  {
+    ids: ["1083N", "1083S"],
+    name: "Ángel Gallardo",
+    line_combinations: [],
+  },
+  {
+    ids: ["1084N", "1084S"],
+    name: "Malabia - Osvaldo Pugliese",
+    line_combinations: [],
+  },
+  {
+    ids: ["1085N", "1085S"],
+    name: "Medrano - Almagro",
+    line_combinations: [],
+  },
+  {
+    ids: ["1086N", "1086S"],
+    name: "Carlos Gardel",
+    line_combinations: [],
+  },
+  {
+    ids: ["1087N", "1087S"],
+    name: "Pueyrredón",
+    line_combinations: ["h"],
+  },
+  {
+    ids: ["1088N", "1088S"],
+    name: "Pasteur - AMIA",
+    line_combinations: [],
+  },
+  {
+    ids: ["1089N", "1089S"],
+    name: "Callao - Mtro. Alfredo Bravo",
+    line_combinations: [],
+  },
+  {
+    ids: ["1090N", "1090S"],
+    name: "Uruguay",
+    line_combinations: [],
+  },
+  {
+    ids: ["1091N", "1091S"],
+    name: "Carlos Pellegrini",
+    line_combinations: ["d"],
+  },
+  {
+    ids: ["1092N", "1092S"],
+    name: "Florida",
+    line_combinations: [],
+  },
+  {
+    ids: ["1093N", "1093S"],
+    name: "Leandro N. Alem",
+    line_combinations: ["e"],
+  },
+];
+---
+
+<Layout title={title} description="">
+  <div class="flex flex-col min-h-svh h-max w-full justify-center">
+    <div
+      class="flex flex-col bg-gray-300/90 min-h-dvh border-b-2 border-gray-950/5 w-full"
+    >
+      <LineHeader
+        name="Línea B"
+        description="Juan Manuel de Rosas - Villa Urquiza / Leandro N. Alem"
+        color="bg-line-b"
+        buttons={(<HeaderButton title="Volver" href="/" />)}
+      />
+
+      <div
+        class="flex flex-col gap-1 max-w-3xl w-full p-3 md:min-h-[calc(100svh-47.7501px)] self-center"
+      >
+        <div class="flex gap-3 not-md:flex-col">
+          <EstimatedTime
+            server:defer
+            stations={stations}
+            routeId="LineaB"
+            firstStation="Leandro N. Alem"
+            lastStation="Juan Manuel de Rosas"
+          >
+            <div
+              slot="fallback"
+              class="flex flex-col gap-2 bg-zinc-100 w-[stretch] rounded-sm pb-2"
+            >
+              <div class="flex justify-between items-center px-3 py-2 pb-0">
+                <h5>Horarios estimados</h5>
+                <p class="">
+                  <Loader2Icon class="size-5 animate-spin" />
+                </p>
+              </div>
+              <div class="flex flex-col gap-1">
+                <div
+                  class="flex not-md:flex-col items-stretch gap-0 -mb-1 bg-zinc-800 text-zinc-50"
+                >
+                  <div class="flex md:flex-1/2 gap-1">
+                    <div
+                      class={"flex gap-1 min-w-24 w-full items-center pl-3 px-2 py-1"}
+                    >
+                      <p style="text-xs">Estación</p>
+                    </div>
+                  </div>
+                  <div class="flex md:flex-1/2 gap-0">
+                    <div
+                      class="flex md:flex-1/12 justify-center gap-1 flex-wrap w-full items-center h-[stretch] not-md:pr-1 py-1"
+                    >
+                      <p class="text-xs text-pretty">a Leandro N. Alem</p>
+                    </div>
+                    <div
+                      class="flex md:flex-1/12 justify-center gap-1 flex-wrap w-full items-center h-[stretch] not-md:pr-2 pr-1 py-1"
+                    >
+                      <p class="text-xs text-pretty">a Juan Manuel de Rosas</p>
+                    </div>
+                  </div>
+                </div>
+                {
+                  stations.map((station) => {
+                    return (
+                      <div class="flex not-md:flex-col items-stretch gap-0">
+                        <div class="flex md:flex-1/2 gap-1">
+                          <div
+                            class={
+                              "flex gap-1 min-w-24 w-full items-center bg-zinc-300 pl-3 px-2 py-1"
+                            }
+                          >
+                            <p style="text-xs">{station.name}</p>
+                            {station.line_combinations.length !== 0
+                              ? station.line_combinations.map((combination) => (
+                                  <LineChip line={combination} />
+                                ))
+                              : null}
+                          </div>
+                        </div>
+                        <div class="flex md:flex-1/2 gap-0">
+                          <div class="w-full bg-zinc-50">
+                            <div class="relative h-full not-md:min-h-[26.97px] flex-1 overflow-hidden bg-zinc-50">
+                              <div class="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-zinc-300 to-transparent animate-shimmer" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                }
+              </div>
+            </div>
+          </EstimatedTime>
+        </div>
+
+        <!-- <div class="flex gap-1 flex-col max-w-1/2">
+          {
+            stations.map((station) => {
+              return (
+                <div class="flex gap-1 bg-gray-100 rounded-sm px-2 py-1 w-fit text-sm items-center">
+                  {station.line_combinations.length !== 0
+                    ? station.line_combinations.map((combination) => (
+                        <LineChip line={combination} />
+                      ))
+                    : null}
+                  <p>{station.name}</p>
+                </div>
+              );
+            })
+          }
+        </div> -->
+      </div>
+    </div>
+  </div>
+</Layout>
