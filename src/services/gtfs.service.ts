@@ -1,4 +1,5 @@
 import fs from "fs";
+import os from 'node:os';
 import path from "path";
 import AdmZip from "adm-zip";
 import { parse } from "csv-parse/sync";
@@ -21,7 +22,7 @@ const FORECAST_CACHE_TTL_MS = 30 * 1000; // 30 seconds
 export class GtfsService {
   private routesMap = new Map<string, Route>();
   private lastForecastData: RawForecastData | null = null;
-  private dataDir = path.join(process.cwd(), "data");
+  private dataDir = path.join(os.tmpdir(), "data");
   private zipPath = path.join(this.dataDir, "feed-gtfs.zip");
   private isDownloading = false;
   private refreshTimer: NodeJS.Timeout | null = null;
