@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
-import node from '@astrojs/node';
 
 import tailwindcss from "@tailwindcss/vite";
 
