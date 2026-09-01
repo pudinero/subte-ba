@@ -4,7 +4,7 @@ import LineChip from "../components/LineChip.astro";
 import LineHeader from "../components/LineHeader.astro";
 import HeaderButton from "../components/HeaderButton.astro";
 import type { Station } from "../services/gcba.service";
-import EstimatedTime from "../components/EstimatedTime.astro";
+import EstimatedTime from "../components/EstimatedTime.tsx";
 import Loader2Icon from "../icons/Loader2.astro";
 
 var title: string = "Línea B - Subte de Buenos Aires";
@@ -116,6 +116,7 @@ const stations: Station[] = [
         <div class="flex gap-3 not-md:flex-col">
           <EstimatedTime
             server:defer
+            client:load
             stations={stations}
             routeId="LineaB"
             firstStation="Leandro N. Alem"

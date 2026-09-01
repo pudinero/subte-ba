@@ -6,12 +6,16 @@ import tailwindcss from "@tailwindcss/vite";
 
 import netlify from "@astrojs/netlify";
 
+import preact from "@astrojs/preact";
+
 // https://astro.build/config
 export default defineConfig({
   adapter: netlify(),
+
   vite: {
     plugins: [tailwindcss()],
   },
+
   fonts: [
     {
       provider: fontProviders.google(),
@@ -39,4 +43,6 @@ export default defineConfig({
       cssVariable: "--font-neue-frutiger",
     }
   ],
+
+  integrations: [preact()],
 });

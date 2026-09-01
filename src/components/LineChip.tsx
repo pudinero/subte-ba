@@ -1,0 +1,38 @@
+interface LineChipProps {
+    line: string;
+}
+
+function textStyling(line: string): string {
+    switch (line) {
+        case "a":
+            return "text-zinc-50 -mt-px";
+        case "c":
+            return "text-zinc-50 ml-[-1.5px]";
+        case "d":
+            return "text-zinc-50 ml-[0.5px]";
+        case "e":
+            return "text-zinc-50 ml-[-0.5px]";
+        case "h":
+            return "text-line-text-dark";
+        default:
+            return "text-zinc-50";
+    }
+}
+
+export default function LineChip({ line }: LineChipProps) {
+    const lineColor = `bg-line-${line.toLowerCase()}`;
+    const textColor = textStyling(line.toLowerCase());
+
+    return (
+        <div
+            class={`${lineColor} rounded-full size-4 flex justify-center items-center`}
+        >
+            <span
+                class={`text-[11px] leading-0 not-italic ${textColor}`}
+            >{line.toUpperCase()}</span
+            >
+        </div>
+    );
+}
+
+

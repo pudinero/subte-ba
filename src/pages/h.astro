@@ -4,7 +4,7 @@ import LineChip from "../components/LineChip.astro";
 import LineHeader from "../components/LineHeader.astro";
 import HeaderButton from "../components/HeaderButton.astro";
 import type { Station } from "../services/gcba.service";
-import EstimatedTime from "../components/EstimatedTime.astro";
+import EstimatedTime from "../components/EstimatedTime.tsx";
 import Loader2Icon from "../icons/Loader2.astro";
 
 var title: string = "Línea H - Subte de Buenos Aires";
@@ -67,7 +67,7 @@ const stations: Station[] = [
   },
   {
     ids: ["1163E", "1163O"],
-    name: "Facultad de Derecho",
+    name: "Facultad de Derecho - Julieta Lanteri",
     line_combinations: [],
   }
 ];
@@ -90,6 +90,7 @@ const stations: Station[] = [
         <div class="flex gap-3 not-md:flex-col">
           <EstimatedTime
             server:defer
+            client:load
             stations={stations}
             routeId="LineaH"
             firstStation="Facultad de Derecho"
