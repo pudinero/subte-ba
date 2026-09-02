@@ -36,7 +36,13 @@ export default function EstimatedTime(props: EstimatedTimeProps) {
     useEffect(() => {
         const fetchForecast = async () => {
             try {
-                const response = await fetch(`/api/forecast/${routeId}?t=${Date.now()}`);
+                const response = await fetch(`/api/forecast/${routeId}`, {
+                    method: 'GET',
+                    cache: 'no-store',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
 
                 if (response.status === 200) {
                     const data = await response.json();

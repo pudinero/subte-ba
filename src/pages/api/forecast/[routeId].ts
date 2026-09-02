@@ -12,6 +12,11 @@ export const GET: APIRoute = async ({ params }) => {
     });
   }
 
+  await gtfsService.initializeForecast(
+    import.meta.env.GCBA_CLIENT_ID, 
+    import.meta.env.GCBA_CLIENT_SECRET
+  );
+
   const forecast = gtfsService.getForecastsById(routeId);
 
   if (!forecast || forecast.Entity.length === 0) {
@@ -22,7 +27,9 @@ export const GET: APIRoute = async ({ params }) => {
     status: 200,
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "no-cache, no-store, must-revalidate",
-    },
+      "Cache-Tag": `forecast-${routeId}`,
+      "Netlify-CDN-Cache-Control": "public, s-maxage=30, must-revalidate",
+      "Cache-Control": "no-cache"
+    }
   });
 };
