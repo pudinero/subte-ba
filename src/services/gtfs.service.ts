@@ -219,34 +219,21 @@ export class GtfsService {
     clientId: string,
     clientSecret: string,
   ): Promise<void> {
-    if (this.forecastGTFSDataReadyPromise) {
-      return this.forecastGTFSDataReadyPromise;
+    if (this.lastForecastData) {
+      if (this.isForecastGTFSCacheValid()) {
+        console.log("Forecast GTFS cache is valid, no need to fetch");
+        return;
+      }
     }
 
-    const wasFetched = this.loadForecastGTFSFromDisk();
-
-    if (wasFetched) {
-      this.forecastGTFSDataReadyPromise = Promise.resolve();
-    } else if (!this.isForecastGTFSCacheValid()) {
-      this.forecastGTFSDataReadyPromise = this.fetchForecastGTFS(
-        clientId,
-        clientSecret,
-      ).catch((err) => {
-        console.error("Initial forecast GTFS fetch failed:", err);
-      });
-    } else {
-      this.forecastGTFSDataReadyPromise = Promise.resolve();
-    }
-
-    if (wasFetched && !this.isForecastGTFSCacheValid()) {
-      this.fetchForecastGTFS(clientId, clientSecret).catch(console.error);
-    }
-
-    if (!this.refreshForecastGTFSTimer) {
-      this.refreshForecastGTFSTimer = setInterval(() => {
-        this.fetchForecastGTFS(clientId, clientSecret).catch(console.error);
-      }, FORECAST_CACHE_TTL_MS);
-      this.refreshForecastGTFSTimer.unref();
+    if (!this.forecastGTFSDataReadyPromise) {
+      this.forecastGTFSDataReadyPromise = this.fetchForecastGTFS(clientId, clientSecret)
+        .catch((err) => {
+          console.error("Initial forecast GTFS fetch failed:", err);
+        })
+        .finally(() => {
+          this.forecastGTFSDataReadyPromise = null;
+        });
     }
 
     return this.forecastGTFSDataReadyPromise;
